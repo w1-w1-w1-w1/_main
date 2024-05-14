@@ -88,14 +88,13 @@
                 сообщение: сообщение
             };
 
-            // Отправляем данные на сервер для сохранения
-			fetch('http://localhost:3000/', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(пост)
-			})
+            fetch('/savePost', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(пост)
+            })
             .then(response => response.json())
             .then(data => обновитьПост(data));
         }
@@ -106,7 +105,6 @@
             document.getElementById("посты").innerHTML = html;
         }
 
-        // Получение постов при загрузке страницы
         fetch('/getPosts')
         .then(response => response.json())
         .then(data => обновитьПост(data));
