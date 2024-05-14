@@ -89,13 +89,13 @@
             };
 
             // Отправляем данные на сервер для сохранения
-            fetch('/savePost', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(пост)
-            })
+			fetch('https://meowsxq.github.io/_main/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(пост)
+			})
             .then(response => response.json())
             .then(data => обновитьПост(data));
         }
