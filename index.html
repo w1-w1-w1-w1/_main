@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Сайт с постами</title>
+<link rel="icon" href="main.ico" type="image/x-icon">
+<title>Твои мысли</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -15,6 +16,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+	cursor: url('girl.cur'), auto;	
   }
   .пост {
     max-width: 800px;
@@ -37,16 +39,20 @@
   h1 { text-align: center; margin-bottom: 20px; color: #007bff; }
   button {
     position: fixed;
-    top: 20px;
-    left: 20px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: #007bff;
     color: #fff;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 1000; 
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
   button:hover { background-color: #0056b3; }
+  
 </style>
 </head>
 <body>
@@ -82,8 +88,8 @@
     var случайныйПост = сохраненныеПосты[Math.floor(Math.random() * сохраненныеПосты.length)];
     var html = `<div class="пост"><strong>${случайныйПост.сообщение}</strong><div class="время">${случайныйПост.время}</div><div class="имя">${случайныйПост.имя}</div></div>`;
     document.getElementById("посты").innerHTML = html;
-  }
-  window.onload = обновитьПост;
+  }	
+window.onload = обновитьПост;
 </script>
 </body>
 </html>
