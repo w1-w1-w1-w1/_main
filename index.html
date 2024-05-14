@@ -75,39 +75,44 @@
     <div id="посты"></div>
     
     <script>
-        function добавитьПост() {
-            var сообщение = prompt("Введите ваше сообщение (не более 366 символов):");
-            if (сообщение.length > 366) {
-                alert("Слишком длинное сообщение. Пожалуйста, введите сообщение не более 366 символов.");
-                return;
-            }
+    function добавитьПост() {
+			var сообщение = prompt("Введите ваше сообщение (не более 366 символов):");
+			if (сообщение.length > 366) {
+				alert("Слишком длинное сообщение. Пожалуйста, введите сообщение не более 366 символов.");
+				return;
+			}
 
-            var имя = prompt("Введите ваше имя:");
-            var пост = {
-                имя: имя,
-                сообщение: сообщение
-            };
+			var имя = prompt("Введите ваше имя:");
+			var пост = {
+				имя: имя,
+				сообщение: сообщение,
+				время: new Date().toLocaleString() // Добавляем время
+			};
 
-            fetch('/savePost', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(пост)
-            })
-            .then(response => response.json())
-            .then(data => обновитьПост(data));
-        }
+			// Получаем текущие посты из localStorage
+			var текущиеПосты = JSON.parse(localStorage.getItem('посты')) || [];
+			// Добавляем новый пост
+			текущиеПосты.push(пост);
+			// Сохраняем обновленные посты в localStorage
+			localStorage.setItem('посты', JSON.stringify(текущиеПосты));
 
-        function обновитьПост(пост) {
-            var html = "<div class='пост'><div class='имя'>" + пост.имя + "</div><strong>" + пост.сообщение +
-                "</strong><div class='время'>" + пост.время + "</div></div>";
-            document.getElementById("посты").innerHTML = html;
-        }
+			// Обновляем отображение постов
+			обновитьПост(пост);
+		}
+	function обновитьПосты() {
+			// Получаем посты из localStorage
+			var посты = JSON.parse(localStorage.getItem('посты')) || [];
+			// Генерируем HTML для каждого поста
+			var html = '';
+			посты.forEach(function(пост) {
+				html += "<div class='пост'><div class='имя'>" + пост.имя + "</div><strong>" + пост.сообщение +
+						"</strong><div class='время'>" + пост.время + "</div></div>";
+			});
+			// Выводим посты на страницу
+			document.getElementById("посты").innerHTML = html;
+		}
 
-        fetch('/getPosts')
-        .then(response => response.json())
-        .then(data => обновитьПост(data));
+	обновитьПосты();
     </script>
 </body>
 </html>
