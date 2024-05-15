@@ -6,53 +6,79 @@
 <link rel="icon" href="main.ico" type="image/x-icon">
 <title>Твои мысли</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-	cursor: url('girl.cur'), auto;	
-  }
-  .пост {
-    max-width: 800px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: relative;
-    margin-bottom: 20px;
-  }
-  .время, .имя {
-    position: absolute;
-    font-size: 12px;
-    color: #fff;
-    background-color: #007bff;
-    padding: 5px 10px;
-  }
-  .время { bottom: -20px; right: 0; }
-  .имя { top: -20px; left: 0; }
-  h1 { text-align: center; margin-bottom: 20px; color: #007bff; }
-  button {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    z-index: 1000; 
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  button:hover { background-color: #0056b3; }
-  
+		body {
+	  font-family: Arial, sans-serif;
+	  margin: 0;
+	  padding: 0;
+	  background-color: #f4f4f4;
+	  color: #333;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  height: 100vh;
+	  cursor: url('girl.cur'), auto;
+	}
+
+	.пост {
+	  max-width: 800px;
+	  padding: 20px;
+	  background-color: #fff;
+	  border-radius: 5px;
+	  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	  position: relative;
+	  margin-bottom: 20px;
+	}
+
+	.время,
+	.имя {
+	  position: absolute;
+	  font-size: 12px;
+	  color: #fff;
+	  background-color: #007bff;
+	  padding: 5px 10px;
+	  z-index: 1;
+	}
+
+	.время {
+	  bottom: -30px;
+	  right: 0;
+	}
+
+	.имя {
+	  top: -30px;
+	  left: 0;
+	}
+
+	.описание-поста {
+	  min-height: 100px;
+	}
+
+	h1 {
+	  text-align: center;
+	  margin-bottom: 20px;
+	  color: #007bff;
+	}
+
+	button {
+	  position: fixed;
+	  bottom: 20px;
+	  left: 50%;
+	  transform: translateX(-50%);
+	  background-color: #007bff;
+	  color: #fff;
+	  border: none;
+	  padding: 10px 20px;
+	  cursor: pointer;
+	  z-index: 1000;
+	  border-radius: 5px;
+	  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	  transition: background-color 0.3s ease;
+	}
+
+	button:hover {
+	  background-color: #0056b3;
+	}
+
 </style>
 </head>
 <body>
@@ -87,7 +113,8 @@
     var сохраненныеПосты = JSON.parse(localStorage.getItem("посты")) || [];
     var случайныйПост = сохраненныеПосты[Math.floor(Math.random() * сохраненныеПосты.length)];
     var html = `<div class="пост"><strong>${случайныйПост.сообщение}</strong><div class="время">${случайныйПост.время}</div><div class="имя">${случайныйПост.имя}</div></div>`;
-    document.getElementById("посты").innerHTML = html;
+    document.getElementById("посты").innerHTML = html;	
+	
   }	
 window.onload = обновитьПост;
 </script>
