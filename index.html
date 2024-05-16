@@ -6,7 +6,8 @@
 <link rel="icon" href="main.ico" type="image/x-icon">
 <title>Твои мысли</title>
 <style>
-		body {
+	body 
+	{
 	  font-family: Arial, sans-serif;
 	  margin: 0;
 	  padding: 0;
@@ -19,7 +20,8 @@
 	  cursor: url('girl.cur'), auto;
 	}
 
-	.пост {
+	.пост 
+	{
 	  max-width: 800px;
 	  padding: 20px;
 	  background-color: #fff;
@@ -27,39 +29,48 @@
 	  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 	  position: relative;
 	  margin-bottom: 20px;
+	  width: auto;
 	}
 
-	.время,
-	.имя {
+	.время 
+	{
 	  position: absolute;
 	  font-size: 12px;
 	  color: #fff;
 	  background-color: #007bff;
 	  padding: 5px 10px;
 	  z-index: 1;
-	}
-
-	.время {
 	  bottom: -30px;
 	  right: 0;
+	  width: auto;
+	  height: auto;
+	  text-align: center;
 	}
 
-	.имя {
+	.имя
+	{
+	  position: absolute;
+	  font-size: 12px;
+	  color: #fff;
+	  background-color: #007bff;
+	  padding: 5px 10px;
+	  z-index: 1;
 	  top: -30px;
 	  left: 0;
+	  width: auto;
+	  height: auto;
+	  text-align: center;
 	}
-
-	.описание-поста {
-	  min-height: 100px;
-	}
-
-	h1 {
+	
+	h1 
+	{
 	  text-align: center;
 	  margin-bottom: 20px;
 	  color: #007bff;
 	}
 
-	button {
+	button 
+	{
 	  position: fixed;
 	  bottom: 20px;
 	  left: 50%;
@@ -75,19 +86,28 @@
 	  transition: background-color 0.3s ease;
 	}
 
-	button:hover {
+	button:hover 
+	{
 	  background-color: #0056b3;
 	}
 
+	/* Добавлен блок для круглых аватарок */
+	.avatar {
+	  width: 50px; /* Задайте нужную ширину */
+	  height: 50px; /* Задайте нужную высоту */
+	  border-radius: 50%; /* Превращаем в круг */
+	}
 </style>
 </head>
 <body>
 <button onclick="добавитьПост()">Добавить пост</button>
 <div id="посты"></div>
 <script>
-  function добавитьПост() {
+  function добавитьПост()
+  {
     var сообщение = prompt("Введите ваше сообщение (не менее 20 и не более 369 символов):");
-    if (!сообщение || сообщение.length > 369 || сообщение.length < 20) {
+    if (!сообщение || сообщение.length > 369 || сообщение.length < 20)
+	{
       alert("Слишком длинное сообщение или неверный формат. Пожалуйста, введите сообщение от 20 до 369 символов.");
       return;
     }
@@ -99,7 +119,8 @@
     localStorage.setItem("посты", JSON.stringify(сохраненныеПосты));
     обновитьПост();
   }
-  function получитьТекущееВремя() {
+  function получитьТекущееВремя()
+  {
     var текущее_время = new Date();
     var год = текущее_время.getFullYear();
     var число = текущее_время.getDate();
@@ -109,14 +130,14 @@
     var секунды = текущее_время.getSeconds();
     return `${год}, ${число}/${месяц} ${часы}:${минуты}:${секунды}`;
   }
-  function обновитьПост() {
+  function обновитьПост()
+  {
     var сохраненныеПосты = JSON.parse(localStorage.getItem("посты")) || [];
     var случайныйПост = сохраненныеПосты[Math.floor(Math.random() * сохраненныеПосты.length)];
     var html = `<div class="пост"><strong>${случайныйПост.сообщение}</strong><div class="время">${случайныйПост.время}</div><div class="имя">${случайныйПост.имя}</div></div>`;
     document.getElementById("посты").innerHTML = html;	
-	
   }	
-window.onload = обновитьПост;
+  window.onload = обновитьПост;
 </script>
 </body>
 </html>
