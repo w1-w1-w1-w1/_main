@@ -4,140 +4,122 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="main.ico" type="image/x-icon">
-<title>Твои мысли</title>
+<title>#1</title>
 <style>
-	body 
-	{
-	  font-family: Arial, sans-serif;
-	  margin: 0;
-	  padding: 0;
-	  background-color: #f4f4f4;
-	  color: #333;
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	  height: 100vh;
-	  cursor: url('girl.cur'), auto;
+	body {
+		font-family: Arial, sans-serif;
+		margin: 0;
+		padding: 0;
+		background-color: #f4f4f4;
+		color: #333;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+		cursor: url('girl.cur'), auto;
 	}
 
-	.пост 
-	{
-	  max-width: 800px;
-	  padding: 20px;
-	  background-color: #fff;
-	  border-radius: 5px;
-	  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	  position: relative;
-	  margin-bottom: 20px;
-	  width: auto;
+	.post {
+		max-width: 800px;
+		padding: 20px;
+		background-color: #fff;
+		border-radius: 5px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		position: relative;
+		margin-bottom: 20px;
+		width: auto;
 	}
 
-	.время 
-	{
-	  position: absolute;
-	  font-size: 12px;
-	  color: #fff;
-	  background-color: #007bff;
-	  padding: 5px 10px;
-	  z-index: 1;
-	  bottom: -30px;
-	  right: 0;
-	  width: auto;
-	  height: auto;
-	  text-align: center;
+	.time, .name {
+		position: absolute;
+		font-size: 12px;
+		color: #fff;
+		background-color: #007bff;
+		padding: 5px 10px;
+		z-index: 1;
 	}
 
-	.имя
-	{
-	  position: absolute;
-	  font-size: 12px;
-	  color: #fff;
-	  background-color: #007bff;
-	  padding: 5px 10px;
-	  z-index: 1;
-	  top: -30px;
-	  left: 0;
-	  width: auto;
-	  height: auto;
-	  text-align: center;
-	}
-	
-	h1 
-	{
-	  text-align: center;
-	  margin-bottom: 20px;
-	  color: #007bff;
+	.time {
+		bottom: -30px;
+		right: 0;
 	}
 
-	button 
-	{
-	  position: fixed;
-	  bottom: 20px;
-	  left: 50%;
-	  transform: translateX(-50%);
-	  background-color: #007bff;
-	  color: #fff;
-	  border: none;
-	  padding: 10px 20px;
-	  cursor: pointer;
-	  z-index: 1000;
-	  border-radius: 5px;
-	  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	  transition: background-color 0.3s ease;
+	.name {
+		top: -30px;
+		left: 0;
 	}
 
-	button:hover 
-	{
-	  background-color: #0056b3;
+	h1 {
+		text-align: center;
+		margin-bottom: 20px;
+		color: #007bff;
 	}
 
-	/* Добавлен блок для круглых аватарок */
+	button {
+		position: fixed;
+		bottom: 20px;
+		left: 50%;
+		transform: translateX(-50%);
+		background-color: #007bff;
+		color: #fff;
+		border: none;
+		padding: 10px 20px;
+		cursor: pointer;
+		z-index: 1000;
+		border-radius: 5px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		transition: background-color 0.3s ease;
+	}
+
+	button:hover {
+		background-color: #0056b3;
+	}
+
 	.avatar {
-	  width: 50px; /* Задайте нужную ширину */
-	  height: 50px; /* Задайте нужную высоту */
-	  border-radius: 50%; /* Превращаем в круг */
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
 	}
 </style>
 </head>
 <body>
-<button onclick="добавитьПост()">Добавить пост</button>
-<div id="посты"></div>
+<button onclick="addPost()">Add Post</button>
+<div id="posts"></div>
 <script>
-  function добавитьПост()
-  {
-    var сообщение = prompt("Введите ваше сообщение (не менее 20 и не более 369 символов):");
-    if (!сообщение || сообщение.length > 369 || сообщение.length < 20)
-	{
-      alert("Слишком длинное сообщение или неверный формат. Пожалуйста, введите сообщение от 20 до 369 символов.");
-      return;
-    }
-    var имя = prompt("Введите ваше имя:");
-    if (!имя) return;
-    var пост = { имя: имя, сообщение: сообщение, время: получитьТекущееВремя() };
-    var сохраненныеПосты = JSON.parse(localStorage.getItem("посты")) || [];
-    сохраненныеПосты.push(пост);
-    localStorage.setItem("посты", JSON.stringify(сохраненныеПосты));
-    обновитьПост();
-  }
-  function получитьТекущееВремя()
-  {
-    var текущее_время = new Date();
-    var год = текущее_время.getFullYear();
-    var число = текущее_время.getDate();
-    var месяц = текущее_время.getMonth() + 1;
-    var часы = текущее_время.getHours();
-    var минуты = текущее_время.getMinutes();
-    var секунды = текущее_время.getSeconds();
-    return `${год}, ${число}/${месяц} ${часы}:${минуты}:${секунды}`;
-  }
-  function обновитьПост()
-  {
-    var сохраненныеПосты = JSON.parse(localStorage.getItem("посты")) || [];
-    var случайныйПост = сохраненныеПосты[Math.floor(Math.random() * сохраненныеПосты.length)];
-    var html = `<div class="пост"><strong>${случайныйПост.сообщение}</strong><div class="время">${случайныйПост.время}</div><div class="имя">${случайныйПост.имя}</div></div>`;
-    document.getElementById("посты").innerHTML = html;	
-  }	
-  window.onload = обновитьПост;
+function addPost() {
+	var message = prompt("Enter your message (between 6 and 366 characters):");
+	if (!message || message.length > 366 || message.length < 6) {
+		alert("Invalid message length. Please enter a message between 6 and 366 characters.");
+		return;
+	}
+	var name = prompt("Enter your name:");
+	if (!name) return;
+	var post = { name: name, message: message, time: getCurrentTime() };
+	var savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+	savedPosts.push(post);
+	localStorage.setItem("posts", JSON.stringify(savedPosts));
+	updatePost();
+}
+
+function getCurrentTime() {
+	var currentTime = new Date();
+	var year = currentTime.getFullYear();
+	var date = currentTime.getDate();
+	var month = currentTime.getMonth() + 1;
+	var hours = currentTime.getHours();
+	var minutes = currentTime.getMinutes();
+	var seconds = currentTime.getSeconds();
+	return `${year}, ${date}/${month} ${hours}:${minutes}:${seconds}`;
+}
+
+function updatePost() {
+	var savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+	var randomPost = savedPosts[Math.floor(Math.random() * savedPosts.length)];
+	var html = `<div class="post"><strong>${randomPost.message}</strong><div class="time">${randomPost.time}</div><div class="name">${randomPost.name}</div></div>`;
+	document.getElementById("posts").innerHTML = html;
+}
+
+window.onload = updatePost;
 </script>
 </body>
 </html>
