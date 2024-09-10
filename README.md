@@ -1,1 +1,1 @@
-![Animated Text](path/to/your/baby.gif)
+![Animated Text](baby.gif)
