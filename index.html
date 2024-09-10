@@ -1,125 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="main.ico" type="image/x-icon">
-<title>#1</title>
-<style>
-	body {
-		font-family: Arial, sans-serif;
-		margin: 0;
-		padding: 0;
-		background-color: #f4f4f4;
-		color: #333;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
-		cursor: url('girl.cur'), auto;
-	}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Номер Один</title>
+    <style>
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow: 
+                    0 0 4px #ff00ff, 
+                    0 0 11px #ff00ff, 
+                    0 0 19px #ff00ff, 
+                    0 0 40px #ff00ff, 
+                    0 0 80px #ff00ff, 
+                    0 0 90px #ff00ff, 
+                    0 0 100px #ff00ff, 
+                    0 0 150px #ff00ff;
+                opacity: 1;
+            }
+            20%, 24%, 55% {        
+                text-shadow: none;
+                opacity: 0.7;
+            }
+        }
 
-	.post {
-		max-width: 800px;
-		padding: 20px;
-		background-color: #fff;
-		border-radius: 5px;
-		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-		position: relative;
-		margin-bottom: 20px;
-		width: auto;
-	}
+        @keyframes button-move {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
 
-	.time, .name {
-		position: absolute;
-		font-size: 12px;
-		color: #fff;
-		background-color: #007bff;
-		padding: 5px 10px;
-		z-index: 1;
-	}
-
-	.time {
-		bottom: -30px;
-		right: 0;
-	}
-
-	.name {
-		top: -30px;
-		left: 0;
-	}
-
-	h1 {
-		text-align: center;
-		margin-bottom: 20px;
-		color: #007bff;
-	}
-
-	button {
-		position: fixed;
-		bottom: 20px;
-		left: 50%;
-		transform: translateX(-50%);
-		background-color: #007bff;
-		color: #fff;
-		border: none;
-		padding: 10px 20px;
-		cursor: pointer;
-		z-index: 1000;
-		border-radius: 5px;
-		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-		transition: background-color 0.3s ease;
-	}
-
-	button:hover {
-		background-color: #0056b3;
-	}
-
-	.avatar {
-		width: 50px;
-		height: 50px;
-		border-radius: 50%;
-	}
-</style>
+        body {
+            background-color: #0f0f0f;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 80px #ff00ff;
+            color: #ffffff;
+            animation: flicker 1.5s infinite alternate;
+            z-index: 1;
+        }
+        .button-container {
+            display: flex;
+            gap: 20px;
+            z-index: 1;
+        }
+        .button {
+            background-color: rgba(26, 26, 26, 0.5);
+            color: #ff00ff;
+            border: 2px solid #ff00ff;
+            padding: 20px;
+            text-decoration: none;
+            font-size: 1.2em;
+            border-radius: 50%;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            animation: button-move 2s infinite;
+        }
+        .button:hover {
+            background-color: #ff00ff;
+            color: #1a1a1a;
+        }
+        .button i {
+            font-size: 2em;
+        }
+        .video-background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            overflow: hidden;
+        }
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .mute-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(26, 26, 26, 0.5);
+            color: #ff00ff;
+            border: 2px solid #ff00ff;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-<button onclick="addPost()">Add Post</button>
-<div id="posts"></div>
-<script>
-function addPost() {
-	var message = prompt("Enter your message (between 6 and 366 characters):");
-	if (!message || message.length > 366 || message.length < 6) {
-		alert("Invalid message length. Please enter a message between 6 and 366 characters.");
-		return;
-	}
-	var name = prompt("Enter your name:");
-	if (!name) return;
-	var post = { name: name, message: message, time: getCurrentTime() };
-	var savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
-	savedPosts.push(post);
-	localStorage.setItem("posts", JSON.stringify(savedPosts));
-	updatePost();
-}
+    <div class="video-background">
+        <video id="bg-video" autoplay muted loop>
+            <source src="baby3.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <h1>Номер Один</h1>
+    <div class="button-container">
+        <a href="https://www.youtube.com" class="button"><i class="fab fa-youtube"></i></a>
+        <a href="https://telegram.org" class="button"><i class="fab fa-telegram-plane"></i></a>
+        <a href="https://discord.com" class="button"><i class="fab fa-discord"></i></a>
+    </div>
+    <button class="mute-button" id="mute-button"><i class="fas fa-volume-up"></i></button>
+    <script>
+        const muteButton = document.getElementById('mute-button');
+        const bgVideo = document.getElementById('bg-video');
 
-function getCurrentTime() {
-	var currentTime = new Date();
-	var year = currentTime.getFullYear();
-	var date = currentTime.getDate();
-	var month = currentTime.getMonth() + 1;
-	var hours = currentTime.getHours();
-	var minutes = currentTime.getMinutes();
-	var seconds = currentTime.getSeconds();
-	return `${year}, ${date}/${month} ${hours}:${minutes}:${seconds}`;
-}
-
-function updatePost() {
-	var savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
-	var randomPost = savedPosts[Math.floor(Math.random() * savedPosts.length)];
-	var html = `<div class="post"><strong>${randomPost.message}</strong><div class="time">${randomPost.time}</div><div class="name">${randomPost.name}</div></div>`;
-	document.getElementById("posts").innerHTML = html;
-}
-
-window.onload = updatePost;
-</script>
+        bgVideo.volume = 0.1;
+        muteButton.addEventListener('click', () => {
+            if (bgVideo.muted) {
+                bgVideo.muted = false;
+                muteButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+            } else {
+                bgVideo.muted = true;
+                muteButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            }
+        });
+    </script>
 </body>
 </html>
