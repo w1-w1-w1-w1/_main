@@ -33,6 +33,28 @@
             }
         }
 
+        @keyframes bubble-pop {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes bubble-appear {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
         body {
             background-color: #0f0f0f;
             color: #00ff00;
@@ -62,24 +84,38 @@
             background-color: rgba(26, 26, 26, 0.5);
             color: #ff00ff;
             border: 2px solid #ff00ff;
-            padding: 20px;
+            padding: 10px;
             text-decoration: none;
-            font-size: 1.2em;
+            font-size: 1em;
             border-radius: 50%;
             transition: background-color 0.3s, color 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 80px;
-            height: 80px;
-            animation: button-move 2s infinite;
+            width: 60px;
+            height: 60px;
+            animation: button-move 2s infinite, bubble-appear 0.5s forwards;
+            position: relative;
         }
         .button:hover {
             background-color: #ff00ff;
             color: #1a1a1a;
+            animation: bubble-pop 0.3s forwards;
         }
         .button i {
-            font-size: 2em;
+            font-size: 1.5em;
+        }
+        .button:active::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 0, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: bubble-pop 0.3s forwards;
         }
         .video-background {
             position: absolute;
@@ -126,9 +162,12 @@
         <a href="https://discordapp.com/users/871600573777084478" class="button"><i class="fab fa-discord"></i></a>
     </div>
     <button class="mute-button" id="mute-button"><i class="fas fa-volume-up"></i></button>
+    <audio id="hover-sound" src="bubble.mp3"></audio>
     <script>
         const muteButton = document.getElementById('mute-button');
         const bgVideo = document.getElementById('bg-video');
+        const hoverSound = document.getElementById('hover-sound');
+        const buttons = document.querySelectorAll('.button');
 
         bgVideo.volume = 0.1;
         muteButton.addEventListener('click', () => {
@@ -139,6 +178,16 @@
                 bgVideo.muted = true;
                 muteButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
             }
+        });
+
+        buttons.forEach((button, index) => {
+            button.addEventListener('mouseenter', () => {
+                hoverSound.currentTime = 0;
+                hoverSound.playbackRate = 1 + (index * 0.1);
+                hoverSound.play().catch(error => {
+                    console.log('Hover sound play failed:', error);
+                });
+            });
         });
     </script>
 </body>
