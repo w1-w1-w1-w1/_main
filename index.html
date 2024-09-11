@@ -145,6 +145,56 @@
             z-index: 10;
             transition: background-color 0.3s, color 0.3s;
         }
+        .heart-container {
+            margin-top: 20px;
+            z-index: 1;
+        }
+        .heart {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff00ff, #ff99ff);
+            position: relative;
+            transform: rotate(-45deg);
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .heart::before,
+        .heart::after {
+            content: '';
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff00ff, #ff99ff);
+            border-radius: 50%;
+            position: absolute;
+        }
+        .heart::before {
+            top: -30px;
+            left: 0;
+        }
+        .heart::after {
+            left: 30px;
+            top: 0;
+        }
+        .heart-button {
+            display: none;
+            background-color: rgba(26, 26, 26, 0.5);
+            color: #ff00ff;
+            border: 2px solid #ff00ff;
+            padding: 10px;
+            text-decoration: none;
+            font-size: 1em;
+            border-radius: 50%;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+        .heart-button i {
+            font-size: 1.5em;
+        }
 
         @media (max-width: 768px) {
             h1 {
@@ -158,6 +208,15 @@
             .mute-button {
                 padding: 8px;
                 font-size: 0.8em;
+            }
+            .heart {
+                width: 50px;
+                height: 50px;
+            }
+            .heart::before,
+            .heart::after {
+                width: 50px;
+                height: 50px;
             }
         }
 
@@ -173,6 +232,15 @@
             .mute-button {
                 padding: 6px;
                 font-size: 0.7em;
+            }
+            .heart {
+                width: 40px;
+                height: 40px;
+            }
+            .heart::before,
+            .heart::after {
+                width: 40px;
+                height: 40px;
             }
         }
     </style>
@@ -191,6 +259,10 @@
         <a href="https://t.me/w1_w1_w1_w1" class="button"><i class="fab fa-telegram-plane"></i></a>
         <a href="https://discordapp.com/users/871600573777084478" class="button"><i class="fab fa-discord"></i></a>
     </div>
+    <div class="heart-container">
+        <div class="heart" id="heart"></div>
+        <a href="https://t.me/Diank_aff" class="heart-button" id="heart-button" style="display: none;"><i class="fas fa-heart"></i></a>
+    </div>
     <button class="mute-button" id="mute-button"><i class="fas fa-volume-up"></i></button>
     <audio id="hover-sound" src="bubble.mp3"></audio>
     <script>
@@ -198,6 +270,8 @@
         const bgVideo = document.getElementById('bg-video');
         const hoverSound = document.getElementById('hover-sound');
         const buttons = document.querySelectorAll('.button');
+        const heart = document.getElementById('heart');
+        const heartButton = document.getElementById('heart-button');
 
         bgVideo.volume = 0.1;
         bgVideo.muted = false;
@@ -221,6 +295,11 @@
                     console.log('Hover sound play failed:', error);
                 });
             });
+        });
+
+        heart.addEventListener('click', () => {
+            heart.style.display = 'none';
+            heartButton.style.display = 'flex';
         });
     </script>
 </body>
