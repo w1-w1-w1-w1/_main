@@ -1,305 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Номер Один</title>
+    <title>Сайт с видео</title>
     <style>
-        @keyframes flicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% {
-                text-shadow: 
-                    0 0 4px #ff00ff, 
-                    0 0 11px #ff00ff, 
-                    0 0 19px #ff00ff, 
-                    0 0 40px #ff00ff, 
-                    0 0 80px #ff00ff, 
-                    0 0 90px #ff00ff, 
-                    0 0 100px #ff00ff, 
-                    0 0 150px #ff00ff;
-                opacity: 1;
-            }
-            20%, 24%, 55% {        
-                text-shadow: none;
-                opacity: 0.7;
-            }
-        }
-
-        @keyframes button-move {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes bubble-pop {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.5);
-                opacity: 0;
-            }
-        }
-
-        @keyframes bubble-appear {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        body {
-            background-color: #0f0f0f;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+        body, html {
             margin: 0;
+            padding: 0;
+            height: 100%;
             overflow: hidden;
-        }
-        h1 {
-            font-size: 4em;
-            margin-bottom: 20px;
-            text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 80px #ff00ff;
-            color: #ffffff;
-            animation: flicker 1.5s infinite alternate;
-            z-index: 1;
-        }
-        .button-container {
-            display: flex;
-            gap: 20px;
-            z-index: 1;
-        }
-        .button {
-            background-color: rgba(26, 26, 26, 0.5);
-            color: #ff00ff;
-            border: 2px solid #ff00ff;
-            padding: 10px;
-            text-decoration: none;
-            font-size: 1em;
-            border-radius: 50%;
-            transition: background-color 0.3s, color 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            animation: button-move 2s infinite, bubble-appear 0.5s forwards;
             position: relative;
         }
-        .button:hover {
-            background-color: #ff00ff;
-            color: #1a1a1a;
-            animation: bubble-pop 0.3s forwards;
-        }
-        .button i {
-            font-size: 1.5em;
-        }
-        .button:active::after {
-            content: '';
+        video {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 0, 255, 0.5);
-            border-radius: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
             transform: translate(-50%, -50%);
-            animation: bubble-pop 0.3s forwards;
         }
-        .video-background {
+        .glitch {
+            font-size: 50px;
+            color: white;
+            text-align: center;
+            animation: glitch 1s infinite;
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 100%;
-            height: 100%;
             transform: translate(-50%, -50%);
-            z-index: 0;
-            overflow: hidden;
         }
-        .video-background video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 red; }
+            20% { text-shadow: -2px 0 blue; }
+            40% { text-shadow: 2px 0 green; }
+            60% { text-shadow: -2px 0 yellow; }
+            80% { text-shadow: 2px 0 purple; }
+            100% { text-shadow: -2px 0 white; }
         }
-        .mute-button {
+        .telegram-button {
             position: absolute;
             bottom: 20px;
             right: 20px;
-            background-color: rgba(26, 26, 26, 0.5);
-            color: #ff00ff;
-            border: 2px solid #ff00ff;
-            padding: 10px;
-            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background-image: url('telegram-icon.png');
+            background-size: cover;
+            border: none;
             cursor: pointer;
-            z-index: 10;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .heart-container {
-            margin-top: 20px;
             z-index: 1;
         }
-        .heart {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, #ff00ff, #ff99ff);
-            position: relative;
-            transform: rotate(-45deg);
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        .heart::before,
-        .heart::after {
-            content: '';
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, #ff00ff, #ff99ff);
-            border-radius: 50%;
-            position: absolute;
-        }
-        .heart::before {
-            top: -30px;
-            left: 0;
-        }
-        .heart::after {
-            left: 30px;
-            top: 0;
-        }
-        .heart-button {
-            display: none;
-            background-color: rgba(26, 26, 26, 0.5);
-            color: #ff00ff;
-            border: 2px solid #ff00ff;
-            padding: 10px;
-            text-decoration: none;
-            font-size: 1em;
-            border-radius: 50%;
-            transition: background-color 0.3s, color 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            position: relative;
-        }
-        .heart-button i {
-            font-size: 1.5em;
-        }
-
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5em;
+            .glitch {
+                font-size: 30px;
             }
-            .button {
-                width: 50px;
-                height: 50px;
-                font-size: 0.8em;
-            }
-            .mute-button {
-                padding: 8px;
-                font-size: 0.8em;
-            }
-            .heart {
-                width: 50px;
-                height: 50px;
-            }
-            .heart::before,
-            .heart::after {
-                width: 50px;
-                height: 50px;
+            .telegram-button {
+                width: 40px;
+                height: 40px;
             }
         }
-
         @media (max-width: 480px) {
-            h1 {
-                font-size: 2em;
+            .glitch {
+                font-size: 24px;
             }
-            .button {
-                width: 40px;
-                height: 40px;
-                font-size: 0.7em;
-            }
-            .mute-button {
-                padding: 6px;
-                font-size: 0.7em;
-            }
-            .heart {
-                width: 40px;
-                height: 40px;
-            }
-            .heart::before,
-            .heart::after {
-                width: 40px;
-                height: 40px;
+            .telegram-button {
+                width: 35px;
+                height: 35px;
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-    <div class="video-background">
-        <video id="bg-video" autoplay loop playsinline muted>
-            <source src="baby3.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
-    <h1>Номер Один</h1>
-    <div class="button-container">
-        <a href="https://youtube.com/@w1_w1_w1_w1" class="button"><i class="fab fa-youtube"></i></a>
-        <a href="https://t.me/w1_w1_w1_w1" class="button"><i class="fab fa-telegram-plane"></i></a>
-        <a href="https://discordapp.com/users/871600573777084478" class="button"><i class="fab fa-discord"></i></a>
-    </div>
-    <div class="heart-container">
-        <div class="heart" id="heart"></div>
-        <a href="https://t.me/Diank_aff" class="heart-button" id="heart-button" style="display: none;"><i class="fas fa-heart"></i></a>
-    </div>
-    <button class="mute-button" id="mute-button"><i class="fas fa-volume-up"></i></button>
-    <audio id="hover-sound" src="bubble.mp3"></audio>
+    <video id="background-video" autoplay muted loop>
+        <source src="baby3.mp4" type="video/mp4">
+        Ваш браузер не поддерживает видео.
+    </video>
+    <div class="glitch">номер один</div>
+    <button id="play-button">Включить звук</button>
+    <a href="https://t.me/w1_w1_w1_w1" class="telegram-button"></a>
+
     <script>
-        const muteButton = document.getElementById('mute-button');
-        const bgVideo = document.getElementById('bg-video');
-        const hoverSound = document.getElementById('hover-sound');
-        const buttons = document.querySelectorAll('.button');
-        const heart = document.getElementById('heart');
-        const heartButton = document.getElementById('heart-button');
+        const video = document.getElementById('background-video');
+        const playButton = document.getElementById('play-button');
 
-        bgVideo.volume = 0.1;
-        bgVideo.muted = false;
-        muteButton.innerHTML = '<i class="fas fa-volume-up"></i>';
-
-        muteButton.addEventListener('click', () => {
-            if (bgVideo.muted) {
-                bgVideo.muted = false;
-                muteButton.innerHTML = '<i class="fas fa-volume-up"></i>';
-            } else {
-                bgVideo.muted = true;
-                muteButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            }
-        });
-
-        buttons.forEach((button, index) => {
-            button.addEventListener('mouseenter', () => {
-                hoverSound.currentTime = 0;
-                hoverSound.playbackRate = 1 + (index * 0.1);
-                hoverSound.play().catch(error => {
-                    console.log('Hover sound play failed:', error);
-                });
-            });
-        });
-
-        heart.addEventListener('click', () => {
-            heart.style.display = 'none';
-            heartButton.style.display = 'flex';
+        playButton.addEventListener('click', () => {
+            video.muted = false;
+            video.volume = 0.05;
+            video.play();
+            playButton.style.display = 'none';
         });
     </script>
 </body>
