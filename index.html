@@ -3,94 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сайт с видео</title>
+    <title>Telegram Bot Card</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body, html {
+        * {
             margin: 0;
             padding: 0;
-            height: 100%;
-            overflow: hidden;
-            position: relative;
+            box-sizing: border-box;
         }
-        video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .background-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
             min-width: 100%;
             min-height: 100%;
-            width: auto;
-            height: auto;
             z-index: -1;
-            transform: translate(-50%, -50%);
+            object-fit: cover;
+            transform: scale(1.1);
+            transition: transform 0.3s ease-out;
         }
-        .glitch {
-            font-size: 50px;
-            color: white;
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
             text-align: center;
-            animation: glitch 1s infinite;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.3s ease-out;
         }
-        @keyframes glitch {
-            0% { text-shadow: 2px 0 red; }
-            20% { text-shadow: -2px 0 blue; }
-            40% { text-shadow: 2px 0 green; }
-            60% { text-shadow: -2px 0 yellow; }
-            80% { text-shadow: 2px 0 purple; }
-            100% { text-shadow: -2px 0 white; }
+
+        .social-buttons {
+            display: flex;
+            gap: 2rem;
+            margin-top: 6rem; 
+            justify-content: center;
         }
-        .telegram-button {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background-image: url('telegram-icon.png');
-            background-size: cover;
-            border: none;
+        
+        .social-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
             cursor: pointer;
-            z-index: 1;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: all 0.3s ease, transform 0.1s ease;
+            text-decoration: none; 
         }
-        @media (max-width: 768px) {
-            .glitch {
-                font-size: 30px;
-            }
-            .telegram-button {
-                width: 40px;
-                height: 40px;
-            }
+
+        .social-btn:hover {
+            transform: translateZ(20px) scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
         }
-        @media (max-width: 480px) {
-            .glitch {
-                font-size: 24px;
+
+        .particles {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .glowing-number {
+            font-size: 120px;
+            color: #fff;
+            text-shadow: 0 0 10px #fff,
+                        0 0 20px #fff,
+                        0 0 40px #0ff,
+                        0 0 80px #0ff,
+                        0 0 120px #0ff;
+            animation: flicker 2s infinite;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .glowing-number.expanded {
+            font-size: 120px;
+        }
+
+        .glowing-number::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 120px;
+        }
+
+        .glowing-number.expanded::after {
+            content: 'номер';
+            opacity: 1;
+        }
+
+        @keyframes flicker {
+            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+                opacity: 0.99;
+                text-shadow: 0 0 10px #fff,
+                            0 0 20px #fff,
+                            0 0 40px #0ff,
+                            0 0 80px #0ff,
+                            0 0 120px #0ff;
             }
-            .telegram-button {
-                width: 35px;
-                height: 35px;
+            20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+                opacity: 0.4;
+                text-shadow: none;
             }
         }
     </style>
 </head>
 <body>
-    <video id="background-video" autoplay muted loop>
-        <source src="baby3.mp4" type="video/mp4">
-        Ваш браузер не поддерживает видео.
+    <video autoplay muted loop class="background-video">
+        <source src="video.mp4" type="video/mp4">
     </video>
-    <div class="glitch">номер один</div>
-    <button id="play-button">Включить звук</button>
-    <a href="https://t.me/w1_w1_w1_w1" class="telegram-button"></a>
+
+    <div class="card">
+        <h1 style="color: white; margin-bottom: 1rem;"> </h1>
+        <div class="glowing-number">1</div>
+        
+        <div class="social-buttons">
+            <a href="https://github.com/w1-w1-w1-w1" class="social-btn github">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://t.me/w1_w1_w1_w1" class="social-btn telegram">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://www.youtube.com/@w1_w1_w1_w1" class="social-btn youtube">
+                <i class="fab fa-youtube"></i>
+            </a>
+        </div>
+    </div>
 
     <script>
-        const video = document.getElementById('background-video');
-        const playButton = document.getElementById('play-button');
+        const glowingNumber = document.querySelector('.glowing-number');
+        let isExpanded = false;
 
-        playButton.addEventListener('click', () => {
-            video.muted = false;
-            video.volume = 0.05;
-            video.play();
-            playButton.style.display = 'none';
+// ... existing code ...
+function toggleNumber() {
+    isExpanded = !isExpanded;
+    if (isExpanded) {
+        glowingNumber.textContent = ''; // очищаем текст для показа псевдоэлемента
+        glowingNumber.classList.add('expanded');
+    } else {
+        glowingNumber.textContent = '1';
+        glowingNumber.classList.remove('expanded');
+    }
+}
+// ... existing code ...
+
+        setInterval(toggleNumber, 3000); // Переключение каждые 3 секунды
+        glowingNumber.addEventListener('click', () => {
+            isExpanded = !isExpanded;
+            if (isExpanded) {
+                glowingNumber.textContent = '';
+                glowingNumber.classList.add('expanded');
+            } else {
+                glowingNumber.textContent = '1';
+                glowingNumber.classList.remove('expanded');
+            }
+        });
+        document.addEventListener('mousemove', (e) => {
+            const card = document.querySelector('.card');
+            const video = document.querySelector('.background-video');
+            
+            const rect = card.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const moveX = (e.clientX - centerX) / 30;
+            const moveY = (e.clientY - centerY) / 30;
+            
+            card.style.transform = `perspective(1000px) rotateY(${moveX}deg) rotateX(${-moveY}deg)`;
+            
+            const videoMoveX = (e.clientX - window.innerWidth / 2) / 100;
+            const videoMoveY = (e.clientY - window.innerHeight / 2) / 100;
+            
+            video.style.transform = `scale(1.1) translate(${videoMoveX}px, ${videoMoveY}px)`;
+        });
+
+        document.addEventListener('mouseleave', () => {
+            const card = document.querySelector('.card');
+            const video = document.querySelector('.background-video');
+            
+            card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0)';
+            video.style.transform = 'scale(1.1) translate(0, 0)';
+        });
+
+        function createParticles(event, element) {
+            for (let i = 0; i < 10; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 4 + 2;
+                const x = event.offsetX;
+                const y = event.offsetY;
+                
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                
+                element.appendChild(particle);
+                
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 60 + 30;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                let startTime = Date.now();
+                
+                function animate() {
+                    const elapsed = Date.now() - startTime;
+                    const duration = 1000;
+                    
+                    if (elapsed < duration) {
+                        const progress = elapsed / duration;
+                        const x = parseFloat(particle.style.left) + vx * 0.016;
+                        const y = parseFloat(particle.style.top) + vy * 0.016;
+                        
+                        particle.style.left = x + 'px';
+                        particle.style.top = y + 'px';
+                        particle.style.opacity = 1 - progress;
+                        
+                        requestAnimationFrame(animate);
+                    } else {
+                        element.removeChild(particle);
+                    }
+                }
+                
+                requestAnimationFrame(animate);
+            }
+        }
+
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => createParticles(e, btn));
         });
     </script>
 </body>
