@@ -8,5 +8,5 @@
   </table>
 </div>
 <h1 align="center">
-  <img src="https://readme-typing-svg.herokuapp.com/?lines=НОМЕР ОДИН&center=true&size=30">
+  <img src="https://readme-typing-svg.herokuapp.com/?lines=NOMER ODIN&center=true&size=30">
 </h1>
