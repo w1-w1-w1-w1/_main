@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="1">
+    <meta name="keywords" content="1">
+    <meta name="author" content="1">
     <style>
         * {
             margin: 0;
@@ -127,7 +130,6 @@
                 transform: translateX(-50%) scale(1.1);
             }
             
-            /* Обновляем трансформацию при движении мыши для мобильных */
             body.is-moving .background-video {
                 transform: translateX(-50%) scale(1.1) translate(var(--moveX), var(--moveY));
             }
@@ -200,7 +202,6 @@
             
             card.style.transform = `perspective(1000px) rotateY(${moveX}deg) rotateX(${-moveY}deg)`;
             
-            // Проверяем ширину экрана
             if (window.innerWidth > 768) {
                 video.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
             } else {
@@ -210,7 +211,6 @@
             }
         });
 
-        // Добавляем обработчик для удаления класса
         document.addEventListener('mouseleave', () => {
             document.body.classList.remove('is-moving');
         });
