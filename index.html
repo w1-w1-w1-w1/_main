@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
     <style>
+        /* Базовые стили */
         * {
             margin: 0;
             padding: 0;
@@ -14,74 +16,69 @@
         }
     
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             background: linear-gradient(45deg, #120038, #000000, #ff69b4);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
         }
-    
+
+        /* Видео фон */
         .background-video {
             position: fixed;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             min-width: 100%;
             min-height: 100%;
             z-index: -1;
             object-fit: cover;
-            transform: scale(1.1);
-            transition: transform 0.3s ease-out;
             opacity: 0.6;
             filter: hue-rotate(180deg);
+            transform: scale(1.1);
+            transition: transform 0.3s;
         }
-    
+
+        /* Карточка */
         .card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             padding: 2.5rem;
             border-radius: 20px;
             text-align: center;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 30px rgba(255, 192, 203, 0.2);
-            transform-style: preserve-3d;
-            transform: perspective(1000px);
-            transition: transform 0.3s ease-out;
+            min-width: 300px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             position: relative;
+            transition: transform 0.3s;
+            box-shadow: 0 0 30px rgba(255, 192, 203, 0.2);
         }
-    
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: 22px;
-            background: linear-gradient(45deg, #ff69b4, #00ffff, #ff00ff);
-            z-index: -1;
-            animation: borderGlow 3s linear infinite;
+
+        /* Мерцающий номер */
+        .glowing-number {
+            font-size: 80px;
+            color: #fff;
+            text-shadow: 
+                0 0 10px #ff69b4,
+                0 0 20px #ff69b4,
+                0 0 40px #00ffff,
+                0 0 80px #00ffff;
+            animation: flicker 2s infinite;
+            cursor: pointer;
+            transition: 0.3s;
         }
-    
-        .card::after {
-            content: '★';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 24px;
-            color: #ff69b4;
-            animation: twinkle 1s ease-in-out infinite;
-        }
-    
+
+        /* Социальные кнопки */
         .social-buttons {
             display: flex;
             gap: 2rem;
             margin-top: 6rem;
-            justify-content: center;
         }
-    
+
         .social-btn {
             width: 60px;
             height: 60px;
@@ -92,227 +89,37 @@
             font-size: 24px;
             color: white;
             background: rgba(255, 255, 255, 0.05);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transform-style: preserve-3d;
-            transition: all 0.3s ease, transform 0.1s ease;
+            transition: all 0.3s;
             text-decoration: none;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 15px rgba(255, 192, 203, 0.2);
-        }
-    
-        .social-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateZ(30px) scale(1.2);
-            box-shadow: 0 0 25px rgba(255, 192, 203, 0.4);
-        }
-    
-        .particles {
-            position: absolute;
-            pointer-events: none;
-        }
-    
-        .particle {
-            position: absolute;
-            background: linear-gradient(45deg, #ff69b4, #00ffff);
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0;
-        }
-    
-        .glowing-number {
-            font-size: 80px; /* уменьшаем с 120px */
-            color: #fff;
-            text-shadow: 0 0 10px #ff69b4,
-                        0 0 20px #ff69b4,
-                        0 0 40px #00ffff,
-                        0 0 80px #00ffff;
-            animation: flicker 2s infinite;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            letter-spacing: 2px;
         }
 
-        .glowing-number.expanded {
-            font-size: 80px; /* уменьшаем со 100px, теперь оба состояния одинакового размера */
-        }
-
-        .glowing-number::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            font-size: 80px; /* уменьшаем со 100px */
-        }
-
-        .glowing-number.expanded::after {
-            content: 'номер';
-            opacity: 1;
-        }
-
-        /* Добавляем дополнительные стили для карточки */
-        .card {
-            min-width: 300px; /* Устанавливаем минимальную ширину */
-            min-height: 300px; /* Устанавливаем минимальную высоту */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-    
-        @keyframes flicker {
-            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
-                opacity: 0.99;
-                text-shadow: 0 0 10px #ff69b4,
-                            0 0 20px #ff69b4,
-                            0 0 40px #00ffff,
-                            0 0 80px #00ffff;
-            }
-            20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
-                opacity: 0.4;
-                text-shadow: none;
-            }
-        }
-    
+        /* Основные анимации */
         @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
+            0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-    
-        @keyframes borderGlow {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-    
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-    
-        /* Добавляем эффект свечения при наведении на карточку */
-        .card:hover {
-            box-shadow: 0 0 50px rgba(255, 192, 203, 0.4);
-        }
-    
-        /* Добавляем декоративные элементы */
-        .card h1 {
-            color: #fff;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-        /* Добавьте эти стили */
-        .stars-container {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-            pointer-events: none;
         }
 
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            filter: blur(1px);
-            animation: star-fly linear infinite;
-            opacity: 0;
-        }
-
-        @keyframes star-fly {
-            0% {
-                transform: translateZ(0) translate(-100%, -100%) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateZ(1000px) translate(100%, 100%) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        @keyframes textTransform {
-            0% { content: 'номер'; }
-            20% { content: 'НоМеР'; }
-            40% { content: 'НОМЕР'; }
-            60% { content: 'нОмЕр'; }
-            80% { content: 'НомеР'; }
-            100% { content: 'номер'; }
-        }
-
-        .glowing-number.expanded::after {
-            content: 'номер';
-            opacity: 1;
-            animation: textTransform 3s infinite, 
-                    textGlow 2s infinite;
-            text-transform: lowercase;
-        }
-
-        @keyframes textGlow {
-            0%, 100% {
-                text-shadow: 0 0 10px #ff69b4,
-                            0 0 20px #ff69b4;
-            }
-            50% {
-                text-shadow: 0 0 20px #00ffff,
-                            0 0 40px #00ffff;
-            }
-        }
-
-        /* Добавим эффект дрожания букв */
-        @keyframes letterShake {
-            0%, 100% { transform: translateY(0); }
-            25% { transform: translateY(-2px); }
-            75% { transform: translateY(2px); }
-        }
-
-        .glowing-number.expanded::after {
-            /* ... существующие стили ... */
-            display: inline-block;
-        }
-
-        /* Добавляем анимацию для каждой буквы отдельно */
-        .letter {
-            display: inline-block;
-            animation: letterShake 0.5s infinite;
-            animation-delay: calc(var(--letter-index) * 0.1s);
-        }
+        @keyframes flicker {
+            0%, 100% { opacity: 0.99; }
+            50% { opacity: 0.4; }
+        }        
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
     <video autoplay muted loop class="background-video">
         <source src="./video.mp4" type="video/mp4">
     </video>
-    <!-- Добавьте этот div перед .card -->
-    <div class="stars-container"></div>
+
     <div class="card">
-        <h1 style="color: white; margin-bottom: 1rem;"> </h1>
         <div class="glowing-number">1</div>
-        
         <div class="social-buttons">
-            <a href="https://github.com/w1-w1-w1-w1" class="social-btn github">
+            <a href="https://github.com/w1-w1-w1-w1" class="social-btn">
                 <i class="fab fa-github"></i>
             </a>
-            <a href="https://t.me/w1_w1_w1_w1" class="social-btn telegram">
+            <a href="https://t.me/w1_w1_w1_w1" class="social-btn">
                 <i class="fab fa-telegram"></i>
             </a>
-            <a href="https://www.youtube.com/@w1_w1_w1_w1" class="social-btn youtube">
+            <a href="https://www.youtube.com/@w1_w1_w1_w1" class="social-btn">
                 <i class="fab fa-youtube"></i>
             </a>
         </div>
@@ -320,204 +127,28 @@
 
     <script>
         const glowingNumber = document.querySelector('.glowing-number');
+        const card = document.querySelector('.card');
+        const video = document.querySelector('.background-video');
         let isExpanded = false;
 
+        // Переключение номера
         function toggleNumber() {
             isExpanded = !isExpanded;
-            if (isExpanded) {
-                glowingNumber.textContent = ''; // очищаем текст для показа псевдоэлемента
-                glowingNumber.classList.add('expanded');
-            } else {
-                glowingNumber.textContent = '1';
-                glowingNumber.classList.remove('expanded');
-            }
+            glowingNumber.textContent = isExpanded ? 'номер' : '1';
+            glowingNumber.classList.toggle('expanded', isExpanded);
         }
 
-        setInterval(toggleNumber, 3000); // Переключение каждые 3 секунды
-        glowingNumber.addEventListener('click', () => {
-            isExpanded = !isExpanded;
-            if (isExpanded) {
-                glowingNumber.textContent = '';
-                glowingNumber.classList.add('expanded');
-            } else {
-                glowingNumber.textContent = '1';
-                glowingNumber.classList.remove('expanded');
-            }
-        });
+        setInterval(toggleNumber, 3000);
+        glowingNumber.addEventListener('click', toggleNumber);
 
+        // Эффект параллакса
         document.addEventListener('mousemove', (e) => {
-            const card = document.querySelector('.card');
-            const video = document.querySelector('.background-video');
-            
-            const rect = card.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            const moveX = (e.clientX - centerX) / 30;
-            const moveY = (e.clientY - centerY) / 30;
+            const moveX = (e.clientX - window.innerWidth / 2) / 30;
+            const moveY = (e.clientY - window.innerHeight / 2) / 30;
             
             card.style.transform = `perspective(1000px) rotateY(${moveX}deg) rotateX(${-moveY}deg)`;
-            
-            const videoMoveX = (e.clientX - window.innerWidth / 2) / 100;
-            const videoMoveY = (e.clientY - window.innerHeight / 2) / 100;
-            
-            video.style.transform = `scale(1.1) translate(${videoMoveX}px, ${videoMoveY}px)`;
+            video.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
         });
-
-        document.addEventListener('mouseleave', () => {
-            const card = document.querySelector('.card');
-            const video = document.querySelector('.background-video');
-            
-            card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0)';
-            video.style.transform = 'scale(1.1) translate(0, 0)';
-        });
-
-        function createParticles(event, element) {
-            for (let i = 0; i < 10; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                const size = Math.random() * 4 + 2;
-                const x = event.offsetX;
-                const y = event.offsetY;
-                
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = x + 'px';
-                particle.style.top = y + 'px';
-                
-                element.appendChild(particle);
-                
-                const angle = Math.random() * Math.PI * 2;
-                const velocity = Math.random() * 60 + 30;
-                const vx = Math.cos(angle) * velocity;
-                const vy = Math.sin(angle) * velocity;
-                
-                let startTime = Date.now();
-                
-                function animate() {
-                    const elapsed = Date.now() - startTime;
-                    const duration = 1000;
-                    
-                    if (elapsed < duration) {
-                        const progress = elapsed / duration;
-                        const x = parseFloat(particle.style.left) + vx * 0.016;
-                        const y = parseFloat(particle.style.top) + vy * 0.016;
-                        
-                        particle.style.left = x + 'px';
-                        particle.style.top = y + 'px';
-                        particle.style.opacity = 1 - progress;
-                        
-                        requestAnimationFrame(animate);
-                    } else {
-                        element.removeChild(particle);
-                    }
-                }
-                
-                requestAnimationFrame(animate);
-            }
-        }
-        // Добавьте этот скрипт
-        function createStars() {
-            const container = document.querySelector('.stars-container');
-            const starCount = 50; // Количество звезд
-
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                
-                // Случайные размеры
-                const size = Math.random() * 3 + 1;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                
-                // Случайная начальная позиция
-                const startX = Math.random() * 100;
-                const startY = Math.random() * 100;
-                star.style.left = `${startX}%`;
-                star.style.top = `${startY}%`;
-                
-                // Случайная длительность анимации
-                const duration = Math.random() * 3 + 2;
-                star.style.animationDuration = `${duration}s`;
-                
-                // Случайная задержка старта
-                const delay = Math.random() * 2;
-                star.style.animationDelay = `${delay}s`;
-                
-                // Случайный цвет
-                const colors = ['#fff', '#ff69b4', '#00ffff', '#ff00ff'];
-                star.style.background = colors[Math.floor(Math.random() * colors.length)];
-                
-                // Случайное свечение
-                const glow = ['#ff69b4', '#00ffff', '#ff00ff'];
-                const glowColor = glow[Math.floor(Math.random() * glow.length)];
-                star.style.boxShadow = `0 0 ${size * 2}px ${glowColor}`;
-                
-                container.appendChild(star);
-            }
-        }
-
-        // Вызовите функцию при загрузке страницы
-        document.addEventListener('DOMContentLoaded', createStars);
-
-        // Добавьте эффект параллакса при движении мыши
-        document.addEventListener('mousemove', (e) => {
-            const stars = document.querySelectorAll('.star');
-            const mouseX = e.clientX / window.innerWidth - 0.5;
-            const mouseY = e.clientY / window.innerHeight - 0.5;
-
-            stars.forEach(star => {
-                const speed = parseFloat(star.style.width) * 0.5; // Скорость зависит от размера звезды
-                const offsetX = mouseX * speed;
-                const offsetY = mouseY * speed;
-                star.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-            });
-        });
-        function toggleNumber() {
-            isExpanded = !isExpanded;
-            if (isExpanded) {
-                glowingNumber.textContent = '';
-                glowingNumber.classList.add('expanded');
-                
-                // Создаем анимированный текст
-                const text = 'номер';
-                const animatedText = text.split('').map((letter, index) => {
-                    return `<span class="letter" style="--letter-index: ${index}">${letter}</span>`;
-                }).join('');
-                
-                const textContainer = document.createElement('div');
-                textContainer.innerHTML = animatedText;
-                textContainer.className = 'animated-text';
-                glowingNumber.appendChild(textContainer);
-            } else {
-                glowingNumber.textContent = '1';
-                glowingNumber.classList.remove('expanded');
-            }
-        }
-
-        // Функция для случайного изменения регистра букв
-        function randomizeCase(text) {
-            return text.split('').map(char => 
-                Math.random() > 0.5 ? char.toUpperCase() : char.toLowerCase()
-            ).join('');
-        }
-
-        // Добавляем периодическое обновление текста
-        setInterval(() => {
-            const textContainer = document.querySelector('.animated-text');
-            if (textContainer) {
-                const letters = textContainer.querySelectorAll('.letter');
-                letters.forEach(letter => {
-                    letter.textContent = Math.random() > 0.5 ? 
-                        letter.textContent.toUpperCase() : 
-                        letter.textContent.toLowerCase();
-                });
-            }
-        }, 500); // Обновление каждые 500мс
-        document.querySelectorAll('.social-btn').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => createParticles(e, btn));
-        });       
     </script>
 </body>
 </html>
