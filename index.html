@@ -119,6 +119,17 @@
                 height: 50px;
                 font-size: 20px;
             }
+            .background-video {
+                width: auto;
+                height: 100%;
+                left: 50%;
+                transform: translateX(-50%) scale(1.1);
+            }
+            
+            /* Обновляем трансформацию при движении мыши для мобильных */
+            body.is-moving .background-video {
+                transform: translateX(-50%) scale(1.1) translate(var(--moveX), var(--moveY));
+            }
         }
 
         @media screen and (max-width: 480px)
@@ -187,7 +198,20 @@
             const moveY = (e.clientY - window.innerHeight / 2) / 30;
             
             card.style.transform = `perspective(1000px) rotateY(${moveX}deg) rotateX(${-moveY}deg)`;
-            video.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
+            
+            // Проверяем ширину экрана
+            if (window.innerWidth > 768) {
+                video.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
+            } else {
+                document.documentElement.style.setProperty('--moveX', moveX + 'px');
+                document.documentElement.style.setProperty('--moveY', moveY + 'px');
+                document.body.classList.add('is-moving');
+            }
+        });
+
+        // Добавляем обработчик для удаления класса
+        document.addEventListener('mouseleave', () => {
+            document.body.classList.remove('is-moving');
         });
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.querySelector('.background-video');
