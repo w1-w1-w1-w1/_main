@@ -6,8 +6,8 @@
     <title>1</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-        /* Базовые стили */
         * {
             margin: 0;
             padding: 0;
@@ -26,7 +26,6 @@
             overflow: hidden;
         }
 
-        /* Видео фон */
         .background-video {
             position: fixed;
             inset: 0;
@@ -40,7 +39,6 @@
             transition: transform 0.3s;
         }
 
-        /* Карточка */
         .card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -58,7 +56,6 @@
             box-shadow: 0 0 30px rgba(255, 192, 203, 0.2);
         }
 
-        /* Мерцающий номер */
         .glowing-number {
             font-size: 80px;
             color: #fff;
@@ -72,7 +69,6 @@
             transition: 0.3s;
         }
 
-        /* Социальные кнопки */
         .social-buttons {
             display: flex;
             gap: 2rem;
@@ -93,7 +89,6 @@
             text-decoration: none;
         }
 
-        /* Основные анимации */
         @keyframes gradientBG {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -102,7 +97,47 @@
         @keyframes flicker {
             0%, 100% { opacity: 0.99; }
             50% { opacity: 0.4; }
-        }        
+        }  
+        @media screen and (max-width: 768px)
+        {
+            .card {
+                padding: 1.5rem;
+                min-height: 250px;
+            }
+
+            .glowing-number {
+                font-size: 60px;
+            }
+
+            .social-buttons {
+                gap: 1rem;
+                margin-top: 3rem;
+            }
+
+            .social-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
+        @media screen and (max-width: 480px)
+        {
+            .card {
+                padding: 1rem;
+                min-height: 200px;
+            }
+
+            .glowing-number {
+                font-size: 40px;
+            }
+
+            .social-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }              
     </style>
 </head>
 <body>
@@ -131,7 +166,6 @@
         const video = document.querySelector('.background-video');
         let isExpanded = false;
 
-        // Переключение номера
         function toggleNumber() {
             isExpanded = !isExpanded;
             glowingNumber.textContent = isExpanded ? 'номер' : '1';
@@ -141,7 +175,6 @@
         setInterval(toggleNumber, 3000);
         glowingNumber.addEventListener('click', toggleNumber);
 
-        // Эффект параллакса
         document.addEventListener('mousemove', (e) => {
             const moveX = (e.clientX - window.innerWidth / 2) / 30;
             const moveY = (e.clientY - window.innerHeight / 2) / 30;
