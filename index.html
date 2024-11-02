@@ -141,7 +141,14 @@
     </style>
 </head>
 <body>
-    <video autoplay muted loop class="background-video">
+    <video 
+        autoplay 
+        muted 
+        loop 
+        playsinline 
+        webkit-playsinline 
+        class="background-video"
+        poster="preview.jpg">
         <source src="./video.mp4" type="video/mp4">
     </video>
 
@@ -181,6 +188,20 @@
             
             card.style.transform = `perspective(1000px) rotateY(${moveX}deg) rotateX(${-moveY}deg)`;
             video.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.querySelector('.background-video');
+            
+            function playVideo() {
+                video.play().catch(function(error) {
+                    console.log("Ошибка воспроизведения видео:", error);
+                });
+            }
+
+            playVideo();
+
+            document.addEventListener('touchstart', playVideo, {once: true});
+            document.addEventListener('click', playVideo, {once: true});
         });
     </script>
 </body>
